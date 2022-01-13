@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import TodoList from './components/TodoLists';
 
-function App() {
+const App = () => {
+
+  const [inputState, setInputState] = useState('');
+
+  const [items, setItems] = useState([]);
+
+  const inputItem = (event) => {
+    console.log(event);
+    setInputState(event.target.value);
+  }
+
+  const addItem = (event) => {
+    setItems( (oldState) => {
+      return [...oldState, inputState]
+    })
+    setInputState('');
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <div className=''>
+        <h1> Todo App </h1>
+
+        <input type="text" placeholder="enter item" value={inputState} onChange={inputItem} />
+        <button onClick={addItem}> Add </button>
+
+        <ol> 
+          {
+            items.map( (itemval,id) => {
+              return <TodoList id={id} itemval={itemval}/>
+            })
+          }
+        </ol>
+      </div>
+    </>
+  )
 }
 
 export default App;
